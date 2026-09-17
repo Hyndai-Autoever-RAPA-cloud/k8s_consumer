@@ -7,10 +7,6 @@ pipeline {
         timestamps()
     }
 
-    triggers {
-        pollSCM('H/5 * * * *')
-    }
-
     environment {
         DOCKER_IMAGE = 'hannoi/hyundai_autoever_itstudy_jeonghan'
         DOCKER_CONFIG = "${WORKSPACE}/.docker"
