@@ -21,8 +21,8 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'chmod +x gradlew'
-                sh './gradlew clean test --no-daemon'
+                // Dockerfile의 JDK 17 빌드 단계에서 테스트까지 실행한다.
+                sh 'docker build --pull --target build .'
             }
         }
 

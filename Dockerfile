@@ -15,7 +15,7 @@ COPY settings.gradle .
 RUN ./gradlew dependencies --no-daemon
 
 COPY src src
-RUN ./gradlew clean build -x test --no-daemon
+RUN ./gradlew clean build --no-daemon
 
 
 #FROM eclipse-termurin:21-jdk
