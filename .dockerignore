@@ -1,0 +1,13 @@
+.git
+.gitignore
+.gradle
+.idea
+.vscode
+.docker
+build
+logs
+.env
+.env.*
+!.env.example
+*.log
+HELP.md
