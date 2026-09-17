@@ -9,6 +9,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'hannoi/hyundai_autoever_itstudy_jeonghan'
+        IMAGE_TAG = 'consumer-1.0'
         DOCKER_CONFIG = "${WORKSPACE}/.docker"
     }
 
@@ -28,19 +29,7 @@ pipeline {
 
         stage('Build image') {
             steps {
-                script {
-                    def shortCommit = sh(
-                        script: 'git rev-parse --short=8 HEAD',
-                        returnStdout: true
-                    ).trim()
-                    env.IMAGE_TAG = "${env.BUILD_NUMBER}-${shortCommit}"
-                }
-                sh '''
-                    docker build --pull \
-                      --tag "$DOCKER_IMAGE:$IMAGE_TAG" \
-                      --tag "$DOCKER_IMAGE:latest" \
-                      .
-                '''
+                sh 'docker build --pull --tag "$DOCKER_IMAGE:$IMAGE_TAG" .'
             }
         }
 
@@ -57,7 +46,6 @@ pipeline {
                         printf '%s' "$DOCKERHUB_TOKEN" | \
                           docker login --username "$DOCKERHUB_USERNAME" --password-stdin
                         docker push "$DOCKER_IMAGE:$IMAGE_TAG"
-                        docker push "$DOCKER_IMAGE:latest"
                     '''
                 }
             }
@@ -66,7 +54,7 @@ pipeline {
 
     post {
         success {
-            echo "Pushed ${DOCKER_IMAGE}:${IMAGE_TAG} and ${DOCKER_IMAGE}:latest"
+            echo "Pushed ${DOCKER_IMAGE}:${IMAGE_TAG}"
         }
         always {
             sh 'rm -rf "$DOCKER_CONFIG"'
