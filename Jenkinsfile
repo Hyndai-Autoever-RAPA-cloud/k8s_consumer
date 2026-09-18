@@ -11,6 +11,7 @@ pipeline {
         DOCKER_IMAGE = 'hannoi/hyundai_autoever_itstudy_jeonghan'
         IMAGE_TAG = 'consumer-1.0'
         DOCKER_PLATFORM = 'linux/amd64'
+        DOCKER_BUILDKIT = '1'
         DOCKER_CONFIG = "${WORKSPACE}/.docker"
     }
 
@@ -24,7 +25,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Dockerfile의 JDK 17 빌드 단계에서 테스트까지 실행한다.
-                sh 'docker build --platform "$DOCKER_PLATFORM" --pull --target build .'
+                sh 'docker build --pull --target build .'
             }
         }
 
